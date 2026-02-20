@@ -1,11 +1,18 @@
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import ProductCard from "../components/ProductCard";
 import Footer from "../components/Footer";
-import { getAllProducts } from "../../controllers/productController";
 
 function Home() {
-  const products = getAllProducts();
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data))
+      .catch((err) => console.error(err));
+  }, []);
 
   return (
     <>
@@ -17,7 +24,7 @@ function Home() {
 
         <div className="product-grid">
           {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product._id} product={product} />
           ))}
         </div>
       </div>
