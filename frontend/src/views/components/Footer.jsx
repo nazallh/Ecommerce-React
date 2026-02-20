@@ -1,7 +1,7 @@
 function Footer() {
   return (
     <footer className="footer">
-      <p>© 2026 E-commerce Store. All rights reserved.</p>
+      <p>© 2026 NexCart Store. All rights reserved.</p>
     </footer>
   );
 }

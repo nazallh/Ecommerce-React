@@ -7,20 +7,23 @@ import { getAllProducts } from "../../controllers/productController";
 function Home() {
   const products = getAllProducts();
 
+  // Show only first 4 products
+  const featuredProducts = products.slice(0, 4);
+
   return (
     <>
       <Navbar />
       <Hero />
 
-      <div className="products-section">
+      <section className="products-section">
         <h2>Featured Products</h2>
 
         <div className="product-grid">
-          {products.map((product) => (
+          {featuredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
-      </div>
+      </section>
 
       <Footer />
     </>
