@@ -1,59 +1,86 @@
 import { useParams, useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import { useCart } from "../../context/CartContext";
 import { getProductById } from "../../controllers/productController";
+import { useState, useEffect } from "react";
 
 function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { addToCart } = useCart();
 
-  const product = getProductById(id);
+  const [product, setProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
 
-  if (!product) return <h2>Product Not Found</h2>;
+  // Load product safely
+  useEffect(() => {
+    const foundProduct = getProductById(parseInt(id));
+    setProduct(foundProduct);
+  }, [id]);
+
+  if (!product) {
+    return <h2>Product Not Found</h2>;
+  }
 
   return (
-    <>
-      <Navbar />
+  <div className="details-container">
 
-      <div className="details-container">
+    {/* LEFT SIDE */}
+    <div className="details-left">
 
-        <button
-          className="back-btn"
-          onClick={() => navigate("/shop")}
-        >
-          ← Back to Products
-        </button>
+      {/* Back Button Top Left */}
+      <button
+        className="back-link-btn"
+        onClick={() => navigate("/shop")}
+      >
+        ← Back to All Products
+      </button>
 
-        <div className="details-card">
-          <img src={product.image} alt={product.name} />
-
-          <div className="details-info">
-            <h2>{product.name}</h2>
-            <p className="price">Price: ${product.price}</p>
-            <p className="desc">
-              Description: Good product with good review.
-            </p>
-
-            <div className="quantity">
-              <label>Quantity: </label>
-              <select>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-              </select>
-            </div>
-
-            <div className="details-buttons">
-              <button className="cart-btn">Add to Cart</button>
-              <button className="buy-btn">Buy Now</button>
-            </div>
-          </div>
-        </div>
+      {/* Product Image */}
+      <div className="details-image">
+        <img src={product.image} alt={product.name} />
       </div>
+    </div>
 
-      <Footer />
-    </>
-  );
+    {/* RIGHT SIDE */}
+    <div className="details-info">
+      <h2>{product.name}</h2>
+      <p className="price">${product.price}</p>
+
+      <label>Quantity:</label>
+      <select
+        value={quantity}
+        onChange={(e) => setQuantity(Number(e.target.value))}
+      >
+        <option value={1}>1</option>
+        <option value={2}>2</option>
+        <option value={3}>3</option>
+      </select>
+
+      <div className="details-buttons">
+  <button
+    className="cart-btn"
+    onClick={() => {
+      addToCart(product, quantity);
+      navigate("/cart");
+    }}
+  >
+    Add to Cart
+  </button>
+
+  <button
+    className="buy-btn"
+    onClick={() => {
+      addToCart(product, quantity);
+      navigate("/auth");
+    }}
+  >
+    Buy Now
+  </button>
+</div>
+    </div>
+
+  </div>
+);
 }
 
 export default ProductDetails;

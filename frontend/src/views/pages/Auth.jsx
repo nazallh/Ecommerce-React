@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 function Auth() {
+  const navigate = useNavigate();
+
   return (
     <>
       <Navbar />
@@ -10,7 +13,6 @@ function Auth() {
 
           <div className="auth-left">
             <h2 className="login-title">Login</h2>
-
             <input type="email" placeholder="Email" />
             <input type="password" placeholder="Password" />
             <button className="login-btn">Login</button>
@@ -18,13 +20,20 @@ function Auth() {
 
           <div className="auth-right">
             <h2 className="register-title">Register</h2>
-
             <input type="text" placeholder="Name" />
             <input type="email" placeholder="Email" />
             <input type="password" placeholder="Password" />
             <input type="password" placeholder="Confirm Password" />
             <button className="register-btn">Register</button>
           </div>
+
+          {/* Bottom Left Button */}
+          <button
+            className="back-home-btn"
+            onClick={() => navigate("/")}
+          >
+            ← Back to Home
+          </button>
 
         </div>
       </div>

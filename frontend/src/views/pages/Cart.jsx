@@ -1,52 +1,69 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
-  const location = useLocation();
+  const { cartItems, updateQuantity, removeItem, getTotal } = useCart();
   const navigate = useNavigate();
-
-  const product = location.state?.product || null;
 
   return (
     <div className="cart-container">
       <div className="cart-card">
-        <h2 className="cart-header">Shopping Cart</h2>
+        <h2 className="cart-title">Shopping Cart</h2>
 
-        {!product ? (
-          <>
-            <h3>Your Cart is Empty</h3>
-            <button
-              className="back-btn"
-              onClick={() => navigate("/shop")}
-            >
-              Back to Products
-            </button>
-          </>
+        {cartItems.length === 0 ? (
+          <h3>Your cart is empty</h3>
         ) : (
           <>
-            <div className="cart-item">
-              <img src={product.image} alt="" />
+            {cartItems.map((item) => (
+              <div key={item.id} className="cart-item">
+                <img src={item.image} alt={item.name} />
 
-              <div>
-                <h4>{product.name}</h4>
-                <p>${product.price}</p>
+                <div className="item-info">
+                  <h4>{item.name}</h4>
+                  <p>${item.price}</p>
+                </div>
+
+                <select
+                  value={item.quantity}
+                  onChange={(e) =>
+                    updateQuantity(item.id, Number(e.target.value))
+                  }
+                >
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </select>
+
+                <div>${item.price * item.quantity}</div>
+
+                <button
+                  className="remove-btn"
+                  onClick={() => removeItem(item.id)}
+                >
+                  Remove
+                </button>
               </div>
-
-              <div>${product.price} × 1</div>
-              <div>${product.price}</div>
-            </div>
+            ))}
 
             <div className="cart-total">
-              <h3>Total: ${product.price}</h3>
+              <h3>Total: ${getTotal()}</h3>
             </div>
 
             <div className="cart-buttons">
-              <button
-                className="back-btn"
-                onClick={() => navigate("/shop")}
-              >
-                Back to Products
-              </button>
-            </div>
+  <button
+    className="back-btn"
+    onClick={() => navigate(-1)}
+  >
+    ← Back to Product Details
+  </button>
+
+  <button
+    className="checkout-btn"
+    onClick={() => navigate("/auth")}
+  >
+    Proceed to Checkout
+  </button>
+</div>
           </>
         )}
       </div>
