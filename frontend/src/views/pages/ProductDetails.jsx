@@ -31,7 +31,7 @@ function ProductDetails() {
             <h2>{product.name}</h2>
             <p className="price">Price: ${product.price}</p>
             <p className="desc">
-              Description: Latest smartphone with advanced features.
+              Description: Good product with good review.
             </p>
 
             <div className="quantity">
