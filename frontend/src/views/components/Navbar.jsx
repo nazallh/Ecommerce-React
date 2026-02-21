@@ -1,18 +1,19 @@
+import { Link } from "react-router-dom";
+
 function Navbar() {
   return (
     <nav className="navbar">
       <div className="logo">🛒 NexCart</div>
 
       <ul className="nav-links">
-        <li>Home</li>
-        <li>Shop</li>
-        <li>Cart</li>
-        <li>Login</li>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/shop">Shop</Link></li>
+        <li><Link to="/cart">Cart</Link></li>
+        <li><Link to="/auth">Login</Link></li>
       </ul>
-
-      <button className="signup-btn">Sign Up</button>
     </nav>
   );
 }
 
 export default Navbar;
+

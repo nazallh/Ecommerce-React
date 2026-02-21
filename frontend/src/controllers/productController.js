@@ -5,5 +5,5 @@ export const getAllProducts = () => {
 };
 
 export const getProductById = (id) => {
-  return products.find((product) => product.id === parseInt(id));
+  return products.find((product) => product.id === Number(id));
 };
