@@ -1,13 +1,19 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 function Auth() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { login, isAuthenticated } = useAuth();
 
-  // If coming from Buy Now → go to checkout
   const redirectPath = location.state?.from || "/";
+
+  // 🚫 If already logged in → don't allow auth page
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
 
   const [registerData, setRegisterData] = useState({
     name: "",
@@ -75,12 +81,10 @@ function Auth() {
         loginData
       );
 
-      // ✅ Save token
-      localStorage.setItem("token", res.data.token);
+      login(res.data.token);   // ✅ use context
 
       alert("Login Successful");
 
-      // ✅ Redirect correctly (checkout if coming from Buy Now)
       navigate(redirectPath, { replace: true });
 
     } catch (err) {
@@ -89,89 +93,86 @@ function Auth() {
   };
 
   return (
-    <>
-      
-      <div className="auth-container">
-        <div className="auth-card">
+    <div className="auth-container">
+      <div className="auth-card">
 
-          {/* LOGIN SECTION */}
-          <div className="auth-left">
-            <h2>Login</h2>
+        {/* LOGIN */}
+        <div className="auth-left">
+          <h2>Login</h2>
 
-            <input
-              type="email"
-              placeholder="Email"
-              value={loginData.email}
-              onChange={(e) =>
-                setLoginData({ ...loginData, email: e.target.value })
-              }
-            />
+          <input
+            type="email"
+            placeholder="Email"
+            value={loginData.email}
+            onChange={(e) =>
+              setLoginData({ ...loginData, email: e.target.value })
+            }
+          />
 
-            <input
-              type="password"
-              placeholder="Password"
-              value={loginData.password}
-              onChange={(e) =>
-                setLoginData({ ...loginData, password: e.target.value })
-              }
-            />
+          <input
+            type="password"
+            placeholder="Password"
+            value={loginData.password}
+            onChange={(e) =>
+              setLoginData({ ...loginData, password: e.target.value })
+            }
+          />
 
-            <button className="login-btn" onClick={handleLogin}>
-              Login
-            </button>
-          </div>
-
-          {/* REGISTER SECTION */}
-          <div className="auth-right">
-            <h2>Register</h2>
-
-            <input
-              type="text"
-              placeholder="Name"
-              value={registerData.name}
-              onChange={(e) =>
-                setRegisterData({ ...registerData, name: e.target.value })
-              }
-            />
-
-            <input
-              type="email"
-              placeholder="Email"
-              value={registerData.email}
-              onChange={(e) =>
-                setRegisterData({ ...registerData, email: e.target.value })
-              }
-            />
-
-            <input
-              type="password"
-              placeholder="Password"
-              value={registerData.password}
-              onChange={(e) =>
-                setRegisterData({ ...registerData, password: e.target.value })
-              }
-            />
-
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              value={registerData.confirmPassword}
-              onChange={(e) =>
-                setRegisterData({
-                  ...registerData,
-                  confirmPassword: e.target.value
-                })
-              }
-            />
-
-            <button className="register-btn" onClick={handleRegister}>
-              Register
-            </button>
-          </div>
-
+          <button className="login-btn" onClick={handleLogin}>
+            Login
+          </button>
         </div>
+
+        {/* REGISTER */}
+        <div className="auth-right">
+          <h2>Register</h2>
+
+          <input
+            type="text"
+            placeholder="Name"
+            value={registerData.name}
+            onChange={(e) =>
+              setRegisterData({ ...registerData, name: e.target.value })
+            }
+          />
+
+          <input
+            type="email"
+            placeholder="Email"
+            value={registerData.email}
+            onChange={(e) =>
+              setRegisterData({ ...registerData, email: e.target.value })
+            }
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={registerData.password}
+            onChange={(e) =>
+              setRegisterData({ ...registerData, password: e.target.value })
+            }
+          />
+
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={registerData.confirmPassword}
+            onChange={(e) =>
+              setRegisterData({
+                ...registerData,
+                confirmPassword: e.target.value
+              })
+            }
+          />
+
+          <button className="register-btn" onClick={handleRegister}>
+            Register
+          </button>
+        </div>
+
       </div>
-    </>
+    </div>
   );
 }
 

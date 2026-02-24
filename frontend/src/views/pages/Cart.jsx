@@ -1,8 +1,10 @@
 import { useCart } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 function Cart() {
   const { cartItems, updateQuantity, removeItem, getTotal } = useCart();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   return (
@@ -60,7 +62,9 @@ function Cart() {
               <button
                 className="checkout-btn"
                 onClick={() =>
-                  navigate("/auth", { state: { from: "/checkout" } })
+                  isAuthenticated
+                    ? navigate("/checkout")
+                    : navigate("/auth", { state: { from: "/checkout" } })
                 }
               >
                 Proceed to Checkout

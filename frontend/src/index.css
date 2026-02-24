@@ -1161,3 +1161,20 @@ html, body, #root {
     font-size: 15px;
   }
 }
+.logout-btn {
+  background: rgba(255, 77, 77, 0.15);
+  color: #ff4d4d;
+  border: 2px solid #ff4d4d;
+  padding: 8px 18px;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.logout-btn:hover {
+  background: #ff4d4d;
+  color: #fff;
+  box-shadow: 0 6px 15px rgba(255, 77, 77, 0.4);
+}

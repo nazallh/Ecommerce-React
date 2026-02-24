@@ -9,12 +9,12 @@ import Auth from "./views/pages/Auth";
 import ProductDetails from "./views/pages/ProductDetails";
 import Cart from "./views/pages/Cart";
 import Checkout from "./views/pages/Checkout";
+import ProtectedRoute from "./views/components/ProtectedRoute";
 
 function App() {
   return (
     <Router>
 
-     
       <Navbar />
 
       <Routes>
@@ -23,10 +23,18 @@ function App() {
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/auth" element={<Auth />} />
-        <Route path="/checkout" element={<Checkout />} />
+
+        {/* 🔒 Protected */}
+        <Route
+          path="/checkout"
+          element={
+            <ProtectedRoute>
+              <Checkout />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
-      
       <Footer />
 
     </Router>
