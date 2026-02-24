@@ -1,7 +1,5 @@
-import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import ProductCard from "../components/ProductCard";
-import Footer from "../components/Footer";
 import { getAllProducts } from "../../controllers/productController";
 
 function Home() {
@@ -12,7 +10,7 @@ function Home() {
 
   return (
     <>
-      <Navbar />
+      
       <Hero />
 
       <section className="products-section">
@@ -25,7 +23,7 @@ function Home() {
         </div>
       </section>
 
-      <Footer />
+      
     </>
   );
 }

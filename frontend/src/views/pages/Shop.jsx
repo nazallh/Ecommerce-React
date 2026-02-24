@@ -1,16 +1,31 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
 import { getAllProducts } from "../../controllers/productController";
 
 function Shop() {
   const navigate = useNavigate();
-  const products = getAllProducts();
+
+  const allProducts = getAllProducts();
+
+  // 🔥 Search and sort state
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOrder, setSortOrder] = useState(""); // "low" or "high"
+
+  // 🔥 Filtered and sorted products
+  const filteredProducts = allProducts
+    .filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (sortOrder === "low") return a.price - b.price;
+      if (sortOrder === "high") return b.price - a.price;
+      return 0;
+    });
 
   return (
     <>
-      <Navbar />
+     
 
       <div className="shop-container">
 
@@ -26,40 +41,45 @@ function Shop() {
 
         <div className="shop-content">
 
-          {/* Sidebar */}
-          <div className="sidebar">
-            <h4>Categories</h4>
-            <ul>
-              <li><input type="radio" name="cat" /> Cameras</li>
-              <li><input type="radio" name="cat" /> Phones</li>
-              <li><input type="radio" name="cat" /> Shoes</li>
-              <li><input type="radio" name="cat" /> Watches</li>
-            </ul>
-
-            <h4>Price</h4>
-            <select>
-              <option>Low to High</option>
-              <option>High to Low</option>
-            </select>
-          </div>
-
           {/* Products */}
           <div className="shop-products">
-            <div className="search-bar">
-              <input type="text" placeholder="Search..." />
+            <div className="shop-filters" style={{ marginBottom: "20px", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "15px" }}>
+              {/* Search */}
+              <input
+                type="text"
+                placeholder="Search product..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                style={{ padding: "10px", borderRadius: "8px", border: "1px solid #ccc", flex: "1", minWidth: "200px" }}
+              />
+
+              {/* Price Sort */}
+              <select
+                value={sortOrder}
+                onChange={(e) => setSortOrder(e.target.value)}
+                style={{ padding: "10px", borderRadius: "8px", border: "1px solid #ccc", minWidth: "180px" }}
+              >
+                <option value="">Sort by Price</option>
+                <option value="low">Low to High</option>
+                <option value="high">High to Low</option>
+              </select>
             </div>
 
             <div className="product-grid">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
+              {filteredProducts.length > 0 ? (
+                filteredProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))
+              ) : (
+                <p>No products found</p>
+              )}
             </div>
           </div>
 
         </div>
       </div>
 
-      <Footer />
+      
     </>
   );
 }

@@ -29,9 +29,9 @@ function Cart() {
                     updateQuantity(item.id, Number(e.target.value))
                   }
                 >
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
+                  {[1,2,3,4,5].map((num) => (
+                    <option key={num} value={num}>{num}</option>
+                  ))}
                 </select>
 
                 <div>${item.price * item.quantity}</div>
@@ -50,20 +50,22 @@ function Cart() {
             </div>
 
             <div className="cart-buttons">
-  <button
-    className="back-btn"
-    onClick={() => navigate(-1)}
-  >
-    ← Back to Product Details
-  </button>
+              <button
+                className="back-btn"
+                onClick={() => navigate(-1)}
+              >
+                ← Back
+              </button>
 
-  <button
-    className="checkout-btn"
-    onClick={() => navigate("/auth")}
-  >
-    Proceed to Checkout
-  </button>
-</div>
+              <button
+                className="checkout-btn"
+                onClick={() =>
+                  navigate("/auth", { state: { from: "/checkout" } })
+                }
+              >
+                Proceed to Checkout
+              </button>
+            </div>
           </>
         )}
       </div>
