@@ -30,10 +30,13 @@ body {
 .logo {
   font-size: 22px;
   font-weight: 700;
-  color: #2563eb;
+  color: #9d4edd;
   letter-spacing: 0.5px;
   cursor: pointer;
+  text-shadow: 0 0 8px rgba(157, 78, 221, 0.6);
+  transition: 0.3s ease;
 }
+
 
 /* ===== NAV LINKS ===== */
 
@@ -116,8 +119,6 @@ body {
 /* ================= HERO SECTION ================= */
 .hero {
   height: 400px; /* slightly taller for modern feel */
-  background: url("https://images.unsplash.com/photo-1506744038136-46273834b3fb")
-    center/cover no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -139,46 +140,67 @@ body {
   z-index: 1;
 }
 
-/* Hero content */
+/* Hero Content Container */
 .hero-content {
   position: relative;
   z-index: 2;
-  max-width: 800px;
+  max-width: 850px;
+  padding: 20px;
+  animation: fadeInUp 1s ease forwards;
 }
 
-/* Heading */
+/* Hero Heading */
 .hero-content h1 {
-  font-size: 48px;
-  font-weight: 700;
-  margin-bottom: 15px;
-  line-height: 1.2;
+  font-size: clamp(2.5rem, 5vw, 3.5rem); /* responsive scaling */
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+  line-height: 1.1;
+  color: #ffffff;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
-/* Paragraph */
+/* Hero Paragraph */
 .hero-content p {
-  font-size: 18px;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-weight: 400;
   color: #f3f4f6;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
+  letter-spacing: 0.5px;
 }
 
-/* Shop Button */
+/* Button Upgrade */
 .shop-btn {
-  background: #2563eb;
-  color: white;
-  padding: 12px 25px;
+  padding: 14px 32px;
   font-size: 16px;
   font-weight: 600;
+  border-radius: 50px;
   border: none;
-  border-radius: 8px;
+  background: #8a2be2;
+  color: white;
   cursor: pointer;
   transition: 0.3s ease;
+  box-shadow: 0 0 10px #8a2be2, 0 0 20px rgba(138, 43, 226, 0.6);
 }
 
 .shop-btn:hover {
-  background: #1e40af;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+  background: #9d4edd;
+  box-shadow: 0 0 20px #9d4edd, 0 0 40px rgba(157, 78, 221, 0.8);
+  transform: translateY(-3px);
 }
+
+/* Smooth Fade Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 1024px) {

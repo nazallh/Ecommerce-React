@@ -40,7 +40,7 @@ const products = [
   {
     id: 1,
     name: "iPhone 17 Pro",
-    price: 1020,
+    price: 1480,
     image: iphonepro
   },
   {
