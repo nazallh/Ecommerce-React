@@ -3,7 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 function Cart() {
-  const { cartItems, updateQuantity, removeItem, getTotal } = useCart();
+  const {
+    cartItems,
+    updateQuantity,
+    removeItem,
+    total   // ✅ use total instead of getTotal
+  } = useCart();
+
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -31,8 +37,10 @@ function Cart() {
                     updateQuantity(item.id, Number(e.target.value))
                   }
                 >
-                  {[1,2,3,4,5].map((num) => (
-                    <option key={num} value={num}>{num}</option>
+                  {[1, 2, 3, 4, 5].map((num) => (
+                    <option key={num} value={num}>
+                      {num}
+                    </option>
                   ))}
                 </select>
 
@@ -47,8 +55,9 @@ function Cart() {
               </div>
             ))}
 
+            {/* ✅ FIXED TOTAL */}
             <div className="cart-total">
-              <h3>Total: ${getTotal()}</h3>
+              <h3>Total: ${total}</h3>
             </div>
 
             <div className="cart-buttons">
